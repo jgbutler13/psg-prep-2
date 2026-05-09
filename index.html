@@ -1,1 +1,69 @@
-Perennial Services Group Prep Dashboard Jon Allen · Torren Peebles · Brentwood + Tenex · 34 Partners · 15 States 📝 My Ideas 🎯 Targets 💰 Offer 📋 Interview Prep Ideas to Implement at PSG LOADING... Export Clear B I U • 1. H ★ KEY — ✕ Insert Template + Sourcing + Process + Team + Integration + Strategic + 30/60/90 Synced to GitHub · auto-saves after typing · works on all devices PERENNIAL SERVICES GROUP | PREP · CONFIDENTIAL · 2026
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Perennial Services Group | Prep</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PSG Prep">
+<meta name="theme-color" content="#1a3028">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#1a3028;display:flex;align-items:center;justify-content:center;min-height:100vh;}
+.wrap{text-align:center;}
+.p{font-family:Georgia,serif;font-size:72px;color:#7fb89a;line-height:1;margin-bottom:14px;}
+.name{font-family:Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:3px;text-transform:uppercase;margin-bottom:32px;}
+.dots{display:flex;gap:10px;justify-content:center;}
+.dot{width:9px;height:9px;border-radius:50%;background:#7fb89a;animation:p 1.2s ease-in-out infinite;}
+.dot:nth-child(2){animation-delay:.2s;}
+.dot:nth-child(3){animation-delay:.4s;}
+@keyframes p{0%,80%,100%{opacity:.15;transform:scale(.8);}40%{opacity:1;transform:scale(1.1);}}
+#msg{color:#b85c38;font-family:Arial,sans-serif;font-size:13px;margin-top:24px;display:none;line-height:1.7;}
+#msg a{color:#7fb89a;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="p">P</div>
+  <div class="name">Perennial Services Group</div>
+  <div class="dots">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+  <div id="msg"></div>
+</div>
+<script>
+var GIST  = 'https://api.github.com/gists/75202269e4b6d2fd8bfddcfc85ab0ccf';
+var TOKEN = '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';
+var FILE  = 'psg_app.html';
+
+function err(msg) {
+  var el = document.getElementById('msg');
+  el.style.display = 'block';
+  el.innerHTML = msg + '<br><a onclick="go()">&#8635; Retry</a>';
+}
+
+function go() {
+  document.getElementById('msg').style.display = 'none';
+  fetch(GIST, { headers: { Authorization: 'token ' + TOKEN, Accept: 'application/vnd.github.v3+json' } })
+    .then(function(r) {
+      if (!r.ok) return r.text().then(function(t) {
+        var m = 'Error ' + r.status;
+        try { m += ': ' + JSON.parse(t).message; } catch(e) {}
+        err(m);
+      });
+      return r.json().then(function(d) {
+        var html = d.files && d.files[FILE] && d.files[FILE].content;
+        if (!html) { err('psg_app.html not found in Gist — complete setup first.'); return; }
+        document.open(); document.write(html); document.close();
+      });
+    })
+    .catch(function(e) { err('Network error: ' + e.message); });
+}
+
+go();
+</script>
+</body>
+</html>
