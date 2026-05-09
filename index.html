@@ -24,7 +24,7 @@ body{background:#1a3028;display:flex;align-items:center;justify-content:center;m
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap" id="loader">
   <div class="p">P</div>
   <div class="name">Perennial Services Group</div>
   <div class="dots" id="dots">
@@ -35,7 +35,6 @@ body{background:#1a3028;display:flex;align-items:center;justify-content:center;m
   <div id="msg"></div>
 </div>
 <script>
-// Raw Gist URL — no token needed, GitHub doesn't revoke these
 var RAW = 'https://gist.githubusercontent.com/jgbutler13/75202269e4b6d2fd8bfddcfc85ab0ccf/raw/psg_app.html';
 
 function showErr(m) {
@@ -50,16 +49,14 @@ function go() {
   document.getElementById('dots').style.display = 'flex';
   fetch(RAW + '?t=' + Date.now())
     .then(function(r) {
-      if (!r.ok) { showErr('Error ' + r.status + ' loading app.'); return; }
-      return r.text().then(function(html) {
-        if (!html || html.trim().length < 100) { showErr('App file empty or not set up yet.'); return; }
-        document.open(); document.write(html); document.close();
-      });
+      if (!r.ok) { showErr('Error ' + r.status + ' — could not load app.'); return; }
+      return r.text();
     })
-    .catch(function(e) { showErr('Network error: ' + e.message); });
-}
+    .then(function(html) {
+      if (!html || html.trim().length < 100) { showErr('App file empty or missing from Gist.'); return; }
 
-go();
-</script>
-</body>
-</html>
+      // Extract and inject styles
+      var styleMatches = html.match(/<style[^>]*>([\s\S]*?)<\/style>/gi) || [];
+      styleMatches.forEach(function(s) {
+        var el = document.createElement('div');
+        e
